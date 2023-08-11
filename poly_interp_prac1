@@ -1,0 +1,26 @@
+N = 5;
+x = linspace(1,10,N); % check the dimension
+y = randi(10,[1,N]);
+data = y';
+%finding model parameters
+G = zeros(N, N);    
+for i = 1:N
+    for j = 1:N
+        G(i, j) = x(i)^(j - 1);
+    end
+end
+model_p = inv(G)*data
+fprintf('%i\n',model_p)
+%interpolation
+x_i = linspace(x(1), x(end), 1000)
+G_i = zeros(1000, N);
+for i = 1:1000
+    for j = 1:N
+        G_i(i, j) = x_i(i)^(j - 1);
+    end
+end
+intpol_data = G_i*model_p
+fprintf('%i\n',intpol_data)
+plot(x,y)
+hold on
+plot(x_i,intpol_data)
